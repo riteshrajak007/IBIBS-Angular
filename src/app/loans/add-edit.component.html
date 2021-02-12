@@ -1,0 +1,78 @@
+<h1 *ngIf="isAddMode">Apply Loan</h1>
+<h1 *ngIf="!isAddMode">Update Loan</h1>
+<form [formGroup]="Loanform" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="loanType">Loan Type</label>
+            <select formControlName="loanType" class="custom-select" (change)="onChangeLoan($event)" [ngClass]="{ 'is-invalid': submitted && f.loanType.errors }">
+                <option value=""></option>
+                <option value="Personal">Personal</option>
+                <option value="Home">Home</option>
+                <option value="Education">Education</option>
+            </select>
+            <div *ngIf="submitted && f.loanType.errors" class="invalid-feedback">
+                <div *ngIf="f.loanType.errors.required">Loan type is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="loanAmount">Loan Amount</label>
+            <input type="text" formControlName="loanAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.loanAmount.errors }" />
+            <div *ngIf="submitted && f.loanAmount.errors" class="invalid-feedback">
+                <div *ngIf="f.loanAmount.errors.required">Loan amount is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="roi">Interest Rate(%)</label>
+            <input type="text" readonly formControlName="roi" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.roi.errors }" />
+            <div *ngIf="submitted && f.roi.errors" class="invalid-feedback">
+                <div *ngIf="f.roi.errors.required">Interest rate is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="duration">Loan Duration</label>
+            <select formControlName="duration" class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.duration.errors }">
+                <option value=""></option>
+                <option value="5">5 yrs</option>
+                <option value="10">10 yrs</option>
+                <option value="15">15 yrs</option>
+                <option value="20">20 yrs</option>
+            </select>
+            <div *ngIf="submitted && f.duration.errors" class="invalid-feedback">
+                <div *ngIf="f.duration.errors.required">Duration is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="applyDate">Loan Date :</label>
+            <mat-form-field class="example-full-width">
+                <input
+                matInput
+                [matDatepicker]="applyDate"
+                formControlName="applyDate"
+                [ngClass]="{ 'is-invalid': submitted && f.applyDate.errors }">
+            <mat-datepicker-toggle matSuffix [for]="applyDate"></mat-datepicker-toggle>
+            <mat-datepicker #applyDate></mat-datepicker>
+          </mat-form-field>
+            <div *ngIf="submitted && f.applyDate.errors" class="invalid-feedback">
+                <div *ngIf="f.applyDate.errors.required">Loan Date is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="accountHolder">Account Holder</label>
+            <input type="text"  formControlName="accountHolder" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.accountHolder.errors }" />
+            <div *ngIf="submitted && f.accountHolder.errors" class="invalid-feedback">
+                <div *ngIf="f.accountHolder.errors.required">Account holder is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+        </button>
+        <a routerLink="/loans" class="btn btn-link">Cancel</a>
+    </div>
+</form>

@@ -1,0 +1,36 @@
+
+<a routerLink="add" class="btn btn-sm btn-success mb-2">Apply Loan</a>
+<h1>Applied Loans</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 20%">Loan Type</th>
+            <th style="width: 20%">Loan Amount</th>
+            <th style="width: 20%">Rate of Intrest</th>
+            <th style="width: 20%">Duration</th>
+            <th style="width: 30%">Account Holder</th>
+            <th style="width: 10%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let loan of loans">
+            <td>{{loan.loanType}}</td>
+            <td>{{loan.loanAmount}}</td>
+            <td>{{loan.roi}}</td>
+            <td>{{loan.duration}} yrs</td>
+            <td>{{loan.accountHolder}}</td>
+            <td style="white-space: nowrap">
+                <a routerLink="edit/{{loan.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <button (click)="deleteLoan(loan.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="loan.isDeleting">
+                    <span *ngIf="loan.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!loan.isDeleting">Delete</span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="!loans">
+            <td colspan="4" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
