@@ -1,0 +1,32 @@
+﻿export class User {
+    id: string;
+    customerId: string;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    token: string;
+    state: string;
+    country: string;
+    email: string;
+    contact : string;
+    registrationDate: Date;
+    accountType: string;
+    accountNumber: string;
+    branchName: string;
+    initialDepositAmount: number;
+    idProofType: string;
+    idDocNumber: string;
+    gender: string;
+    maritalStatus: string;
+    refAccountholderAccountNumber: string;
+    refAccountholderAccountName: string;
+    refAccountholderAddress: string;
+    guardianType: string;
+    guardianName: string;
+    address: string;
+    dob:Date;
+    citizenship:string;
+    citizenstatus:string;
+    age: number;
+}

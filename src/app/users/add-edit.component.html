@@ -1,0 +1,280 @@
+﻿﻿<h1 *ngIf="isAddMode">Add User</h1>
+<h1 *ngIf="!isAddMode">Update Profile</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="firstName">First Name</label>
+            <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                <div *ngIf="f.firstName.errors.pattern">First name should contain only alphabets and space</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="lastName">Last Name</label>
+            <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                <div *ngIf="f.lastName.errors.pattern">Last name should contain only alphabets and space</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="customerId">CustomerId</label>
+            <input type="text" readonly formControlName="customerId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerId.errors }" />
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="username">Username</label>
+            <input type="text" readonly formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">Username is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="password">
+                Password
+                <em *ngIf="!isAddMode">(Leave blank to keep the same password)</em>
+            </label>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="registrationDate">Registration Date</label>
+            <input type="text" readonly formControlName="registrationDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.registrationDate.errors }" />
+            <div *ngIf="submitted && f.registrationDate.errors" class="invalid-feedback">
+                <div *ngIf="f.registrationDate.errors.required">Address is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="accountNumber">Account Number</label>
+            <input type="text" readonly formControlName="accountNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.accountNumber.errors }" />
+            <div *ngIf="submitted && f.accountNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.accountNumber.errors.required">Account Type is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="accountType">Account Type</label>
+            <select formControlName="accountType" class="custom-select" (change)="onChangeAccountType($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.accountType.errors }">
+                <option>--Choose Account Type--</option>
+			<option *ngFor="let type of AccountTypes">{{type.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.accountType.errors" class="invalid-feedback">
+                <div *ngIf="f.accountType.errors.required">Account Type is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="initialDepositAmount">Initial Deposit Amount</label>
+            <input type="text" readonly formControlName="initialDepositAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.initialDepositAmount.errors }" />
+            <div *ngIf="submitted && f.initialDepositAmount.errors" class="invalid-feedback">
+                <div *ngIf="f.initialDepositAmount.errors.required">Initial Deposit Amount is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="country">Country</label>
+            <select formControlName="country" class="custom-select" [(ngModel)]="selectedCountry" (change)="onChangeCountry($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">
+                <option>--Choose Country--</option>
+			<option *ngFor="let country of Countries">{{country.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                <div *ngIf="f.country.errors.required">Country is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="state">State</label>
+            <select formControlName="state" class="custom-select" [(ngModel)]="selectedState" (change)="onChangeState($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
+                <option>--Choose State--</option>
+			<option *ngFor="let state of states">{{state.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                <div *ngIf="f.state.errors.required">State  is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="branchName">Branch Name</label>
+            <select formControlName="branchName" class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }">
+                <option>--Choose Branch--</option>
+			<option *ngFor="let branch of branches">{{branch}}</option>
+            </select>
+            <div *ngIf="submitted && f.branchName.errors" class="invalid-feedback">
+                <div *ngIf="f.branchName.errors.required">Branch Name  is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="address">Address</label>
+            <input type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" />
+            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                <div *ngIf="f.address.errors.required">Address is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="citizenship">Citizenship</label>
+            <select formControlName="citizenship" class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.citizenship.errors }">
+                <option>--Choose Citizenship--</option>
+			<option *ngFor="let citizen of Citizenships">{{citizen.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.citizenship.errors" class="invalid-feedback">
+                <div *ngIf="f.citizenship.errors.required">Citizenship is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="dob">Date of Birth :</label>&nbsp;&nbsp;
+            <mat-form-field>
+                <input
+                matInput
+                [matDatepicker]="dob"
+                formControlName="dob"
+                [min]="yesterday"
+                [max]="tomorrow"
+                (dateChange)="ageFromDateOfBirthday($event.target.value)"
+                [ngClass]="{ 'is-invalid': submitted && f.dob.errors }">
+            <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+            <mat-datepicker #dob></mat-datepicker>
+          </mat-form-field>
+            <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                <div *ngIf="f.dob.errors.required">Date of Birth is required.</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="age">Age</label>
+            <input type="text" readonly formControlName="age" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.age.errors }" />
+            <div *ngIf="submitted && f.age.errors" class="invalid-feedback">
+                <div *ngIf="f.age.errors.required">Guardian Name is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="citizenstatus">Citizen Status</label>
+            <input type="text" readonly formControlName="citizenstatus" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.citizenstatus.errors }" />
+            <div *ngIf="submitted && f.citizenstatus.errors" class="invalid-feedback">
+                <div *ngIf="f.citizenstatus.errors.required">Citizen status is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="guardianType">Guardian Type</label>
+            <select formControlName="guardianType" class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.guardianType.errors }">
+                <option>--Choose ID Proof Type--</option>
+			<option *ngFor="let guardianType of GuardianTypes">{{guardianType.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.guardianType.errors" class="invalid-feedback">
+                <div *ngIf="f.guardianType.errors.required">Guardian Type is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="guardianName">Guardian Name</label>
+            <input type="text" formControlName="guardianName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.guardianName.errors }" />
+            <div *ngIf="submitted && f.guardianName.errors" class="invalid-feedback">
+                <div *ngIf="f.guardianName.errors.required">Guardian Name is required</div>
+                <div *ngIf="f.guardianName.errors.pattern">Guardian name should contain only alphabets and space</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="gender">Gender</label>
+            <select formControlName="gender" class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                <option>--Choose Gender--</option>
+			<option *ngFor="let gnder of Genders">{{gnder.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                <div *ngIf="f.gender.errors.required">Gender  is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="maritalStatus">Marital Status</label>
+            <select formControlName="maritalStatus" class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.maritalStatus.errors }">
+                <option>--Choose Marital Status--</option>
+			<option *ngFor="let mstatus of MaritalStatuses">{{mstatus.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.maritalStatus.errors" class="invalid-feedback">
+                <div *ngIf="f.maritalStatus.errors.required">Marital Status is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="email">Email</label>
+            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">email  is required</div>
+                <div *ngIf="f.email.errors.email">email  is not correct</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="contact">Contact (Mobile)</label>
+            <input 
+                type="text" 
+                formControlName="contact" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.contact.errors }" />
+            <div *ngIf="submitted && f.contact.errors" class="invalid-feedback">
+                <div *ngIf="f.contact.errors.required">contact is required</div>
+                <div *ngIf="f.contact.errors.pattern">Please, Enter 10 digit Mobile Number.</div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="refAccountholderAccountNumber">Reference Accountholder AccountNumber</label>
+            <input type="refAccountholderAccountNumber" formControlName="refAccountholderAccountNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.refAccountholderAccountNumber.errors }" />
+            <div *ngIf="submitted && f.refAccountholderAccountNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.refAccountholderAccountNumber.errors.required">Reference A/C no. is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="refAccountholderAccountName">Reference Accountholder Name</label>
+            <input type="refAccountholderAccountName" formControlName="refAccountholderAccountName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.refAccountholderAccountName.errors }" />
+            <div *ngIf="submitted && f.refAccountholderAccountName.errors" class="invalid-feedback">
+                <div *ngIf="f.refAccountholderAccountName.errors.required">Reference A/C holder Name is required</div>
+                <div *ngIf="f.refAccountholderAccountName.errors.pattern">Reference Account holder name should contain only alphabets and space</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="refAccountholderAddress">Reference Accountholder Address</label>
+            <input type="refAccountholderAddress" formControlName="refAccountholderAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.refAccountholderAddress.errors }" />
+            <div *ngIf="submitted && f.refAccountholderAddress.errors" class="invalid-feedback">
+                <div *ngIf="f.refAccountholderAddress.errors.required">Reference A/C holder Address is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="idProofType">Id ProofType</label>
+            <select formControlName="idProofType" class="custom-select" [ngClass]="{ 'is-invalid': submitted && f.idProofType.errors }">
+                <option>--Choose ID Proof Type--</option>
+			<option *ngFor="let proofType of IdProofTypes">{{proofType.name}}</option>
+            </select>
+            <div *ngIf="submitted && f.idProofType.errors" class="invalid-feedback">
+                <div *ngIf="f.idProofType.errors.required">Id Proof Type  is required</div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="idDocNumber">Id Doc Number</label>
+            <input type="idDocNumber" formControlName="idDocNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.idDocNumber.errors }" />
+            <div *ngIf="submitted && f.idDocNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.idDocNumber.errors.required">Id Number is required</div>
+                <div *ngIf="f.idDocNumber.errors.pattern">Id not in correct format</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+        </button>
+        <a routerLink="/users" class="btn btn-link">Cancel</a>
+    </div>
+</form>
